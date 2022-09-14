@@ -17,20 +17,66 @@
     <div id="root"></div>
 
     <script type="text/babel">
-      let robot = "🤖";
-      let cowboy = "🤠";
-      let moon = "🌝";
-      let name = "React";
-      ReactDOM.render(
-        <ul>
-          <li>{robot}</li>
-          <li>{cowboy}</li>
-          <li>{moon}</li>
-          <li>{name.toUpperCase()}</li>
-          <li>{name.length}</li>
-        </ul>,
-        document.getElementById("root")
-      );
+      function Header(props) {
+        console.log(props);
+        return (
+          <header>
+            <h1>{props.name}'s Kitchen</h1>
+          </header>
+        );
+      }
+
+      function Footer(props) {
+        return (
+          <footer>
+            <p>Copyright {props.year}</p>
+          </footer>
+        );
+      }
+
+      function Main(props) {
+        return (
+          <section>
+            <img
+              height={200}
+              alt="gundam chef image"
+              src="https://images.pexels.com/photos/5905356/pexels-photo-5905356.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1"
+            />
+            <ul>
+              {props.dishes.map((dish) => (
+                <li key={dish.id}>{dish.title}</li>
+              ))}
+            </ul>
+          </section>
+        );
+      }
+
+      const dishes = [
+        'Steak',
+        'Chicken',
+        'Macaroni',
+        'Mexican Rice',
+        'White Rice',
+        'Mashed',
+        'Eggs',
+      ];
+
+      const dishObjects = dishes.map((dish, i) => ({
+        id: i,
+        title: dish,
+      }));
+
+      function App() {
+        return (
+          <React.Fragment>
+            <Header name="Nicci" />
+            <Main adjective="wonderful" dishes={dishObjects} />
+            <Footer year={new Date().getFullYear()} />
+          </React.Fragment>
+        );
+      }
+
+      ReactDOM.render(<App />, document.getElementById('root'));
     </script>
   </body>
 </html>
