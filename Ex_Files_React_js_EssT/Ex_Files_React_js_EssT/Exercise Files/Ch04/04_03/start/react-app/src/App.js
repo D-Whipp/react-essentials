@@ -1,18 +1,29 @@
 import './App.css';
 import { useState, useEffect } from 'react';
 
-function GithubUser({ name, location, url, image }) {
+const query = `
+query {
+  allLifts {
+    name
+    elevationGain
+    status
+  }
+}
+`;
+
+const opts = {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ query }),
+};
+
+function Lift({ name, elevationGain, status }) {
   return (
     <div>
-      <img
-        alt="profile avatar"
-        height={150}
-        width={150}
-        src={image}
-      />
       <h1>{name}</h1>
-      <p>{location}</p>
-      <p>{url}</p>
+      <p>
+        {elevationGain} {status}
+      </p>
     </div>
   );
 }
@@ -23,7 +34,7 @@ function App() {
   const [loading, setLoading] = useState(false);
   useEffect(() => {
     setLoading(true);
-    fetch(`https://api.github.com/users/D-Whipp`)
+    fetch(`https://snowtooth.moonhighway.com/`, opts)
       .then((response) => response.json())
       .then(setData)
       .then(() => setLoading(false))
@@ -33,13 +44,17 @@ function App() {
   if (loading) return <h1>Loading...</h1>;
   if (error) return <pre>{JSON.stringify(error)}</pre>;
   if (!data) return null;
+  console.log(data, 'DATA!!!');
   return (
-    <GithubUser
-      name={data.name}
-      location={data.location}
-      url={data.url}
-      image={data.avatar_url}
-    />
+    <div>
+      {data.data.allLifts.map((lift) => (
+        <Lift
+          name={lift.name}
+          elevationGain={lift.elevationGain}
+          status={lift.status}
+        />
+      ))}
+    </div>
   );
 }
 
