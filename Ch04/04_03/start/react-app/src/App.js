@@ -8,7 +8,7 @@ function Home() {
   );
 }
 
-function About() {
+export function About() {
   return (
     <div>
       <h2>About Us</h2>
@@ -16,7 +16,7 @@ function About() {
   );
 }
 
-function Contact() {
+export function Contact() {
   return (
     <div>
       <h2>Contact Us</h2>
@@ -24,8 +24,6 @@ function Contact() {
   );
 }
 
-function App() {
+export function App() {
   return <Home />;
 }
-
-export default App;
